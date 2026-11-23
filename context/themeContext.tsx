@@ -7,8 +7,8 @@ import { Alegreya } from 'next/font/google';
 
 // create a type for your props
 type ThemeContextProps = {
-    darkMode: boolean,
-    setDarkMode: (value: boolean) => void
+    lightMode: boolean,
+    setLightMode: (value: boolean) => void
 }
 
 
@@ -20,28 +20,34 @@ const ThemeContext = createContext<ThemeContextProps | undefined>(undefined)
 
 // create a context provider
 export function ThemeContextProvider(props: { children: ReactNode }) {
-    const [darkMode, setDarkMode] = useState<boolean>(true)
+    const [lightMode, setLightMode] = useState<boolean>(true)
 
     const theme = createTheme({
         typography: {
             fontFamily: alegreya.style.fontFamily,
         },
         palette: {
-            mode: darkMode ? "dark" : "light",
+            mode: lightMode ? "light" : "dark",
             primary: {
                 light: '#F2E4F1',
                 main: '#BFB4BE',
                 dark: '#8D818C',
                 contrastText: '#000',
             },
+            secondary: {
+                light: '#8D818C',
+                main: '#6e5b6c',
+                dark: '#554454',
+                contrastText: '#fff',
+            },
             background: {
-                default: '#F2E4F1'
+                default: lightMode ? "#BFB4BE" : "#6e5b6c"
             },
         }
     });
 
     return (
-        <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+        <ThemeContext.Provider value={{ lightMode, setLightMode }}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 {props.children}
